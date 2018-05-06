@@ -656,7 +656,11 @@ static inline bool str_n_case_eq(const char *s1, const char *s2, size_t len)
 
 static inline bool qstr_case_eq(const struct qstr *q1, const struct qstr *q2)
 {
+<<<<<<< HEAD
 	return q1->len == q2->len && str_n_case_eq(q1->name, q2->name, q1->len);
+=======
+	return q1->len == q2->len && str_n_case_eq(q1->name, q2->name, q2->len);
+>>>>>>> 58dd8702ce6f... Merge e02d9991fe12d46d3b9e0b3144b94bfcd15e6e5b on remote branch
 }
 
 /* */

@@ -1723,12 +1723,23 @@ static int mdp3_get_metadata(struct msm_fb_data_type *mfd,
 		}
 		break;
 	case metadata_op_get_ion_fd:
+<<<<<<< HEAD
 		if (mfd->fb_ion_handle) {
 			metadata->data.fbmem_ionfd =
 					dma_buf_fd(mfd->fbmem_buf, 0);
 			if (metadata->data.fbmem_ionfd < 0)
+=======
+		if (mfd->fb_ion_handle &&  mfd->fb_ion_client) {
+			get_dma_buf(mfd->fbmem_buf);
+			metadata->data.fbmem_ionfd =
+				ion_share_dma_buf_fd(mfd->fb_ion_client,
+					mfd->fb_ion_handle);
+			if (metadata->data.fbmem_ionfd < 0) {
+				dma_buf_put(mfd->fbmem_buf);
+>>>>>>> 58dd8702ce6f... Merge e02d9991fe12d46d3b9e0b3144b94bfcd15e6e5b on remote branch
 				pr_err("fd allocation failed. fd = %d\n",
 						metadata->data.fbmem_ionfd);
+			}
 		}
 		break;
 	default:
