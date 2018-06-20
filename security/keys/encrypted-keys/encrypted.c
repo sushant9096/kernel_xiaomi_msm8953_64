@@ -1,6 +1,7 @@
 /*
  * Copyright (C) 2010 IBM Corporation
  * Copyright (C) 2010 Politecnico di Torino, Italy
+ * Copyright (C) 2018 XiaoMi, Inc.
  *                    TORSEC group -- http://security.polito.it
  *
  * Authors:

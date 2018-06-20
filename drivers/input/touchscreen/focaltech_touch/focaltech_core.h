@@ -3,6 +3,7 @@
  * FocalTech TouchScreen driver.
  *
  * Copyright (c) 2010-2017, Focaltech Ltd. All rights reserved.
+ * Copyright (C) 2018 XiaoMi, Inc.
  *
  * This software is licensed under the terms of the GNU General Public
  * License version 2, as published by the Free Software Foundation, and
@@ -52,7 +53,7 @@
 #include <linux/workqueue.h>
 #include <linux/fs.h>
 #include <linux/proc_fs.h>
-#include <linux/uaccess.h>
+#include <asm/uaccess.h>
 #include <linux/version.h>
 #include <linux/types.h>
 #include <linux/sched.h>
@@ -97,20 +98,26 @@
 #define FTS_TOUCH_UP        1
 #define FTS_TOUCH_CONTACT   2
 
+#define FT5446_POWER_LDO    0
+
 #define FTS_SYSFS_ECHO_ON(buf)      ((strnicmp(buf, "1", 1)  == 0) || \
-					(strnicmp(buf, "on", 2) == 0))
+					                    (strnicmp(buf, "on", 2) == 0))
 #define FTS_SYSFS_ECHO_OFF(buf)     ((strnicmp(buf, "0", 1)  == 0) || \
-					(strnicmp(buf, "off", 3) == 0))
+					                    (strnicmp(buf, "off", 3) == 0))
+
+#define PINCTRL_STATE_ACTIVE	"pmx_ts_irqrst_active"
+#define PINCTRL_STATE_SUSPEND	"pmx_ts_irqrst_suspend"
+#define PINCTRL_STATE_RELEASE	"pmx_ts_irqrst_release"
 
 /*****************************************************************************
 * Private enumerations, structures and unions using typedef
 *****************************************************************************/
 
-
-struct fts_ts_platform_data {
-	int irq_gpio;
+struct fts_ts_platform_data
+{
+	u32 irq_gpio;
 	u32 irq_gpio_flags;
-	int reset_gpio;
+	u32 reset_gpio;
 	u32 reset_gpio_flags;
 	bool have_key;
 	u32 key_number;
@@ -122,18 +129,21 @@ struct fts_ts_platform_data {
 	u32 x_min;
 	u32 y_min;
 	u32 max_touch_number;
-	bool wakeup_gestures_en;
+
+
+	#if FT5446_POWER_LDO
+		u32 power_ldo_gpio;
+		u32 power_ldo_gpio_flags;
+	#endif
+
 };
 
 struct ts_event {
 	u16 au16_x[FTS_MAX_POINTS]; /*x coordinate */
 	u16 au16_y[FTS_MAX_POINTS]; /*y coordinate */
 	u16 pressure[FTS_MAX_POINTS];
-	u8 au8_touch_event[FTS_MAX_POINTS]; /* touch event:
-					       0 -- down;
-					       1-- up;
-					       2 -- contact */
-	u8 au8_finger_id[FTS_MAX_POINTS];   /* touch ID */
+	u8 au8_touch_event[FTS_MAX_POINTS]; /* touch event: 0 -- down; 1-- up; 2 -- contact */
+	u8 au8_finger_id[FTS_MAX_POINTS];   /*touch ID */
 	u8 area[FTS_MAX_POINTS];
 	u8 touch_point;
 	u8 point_num;
@@ -144,9 +154,9 @@ struct fts_ts_data {
 	struct input_dev *input_dev;
 	struct ts_event event;
 	const struct fts_ts_platform_data *pdata;
-#if FTS_PSENSOR_EN
+	#if FTS_PSENSOR_EN
 	struct fts_psensor_platform_data *psensor_pdata;
-#endif
+	#endif
 	struct work_struct  touch_event_work;
 	struct workqueue_struct *ts_workqueue;
 	struct regulator *vdd;
@@ -160,11 +170,18 @@ struct fts_ts_data {
 	int touchs;
 	int irq_disable;
 
-#if defined(CONFIG_FB)
+	struct pinctrl *ts_pinctrl;
+	struct pinctrl_state *pinctrl_state_active;
+	struct pinctrl_state *pinctrl_state_suspend;
+	struct pinctrl_state *pinctrl_state_release;
+
+	char tp_lockdown_info_temp[FTS_LOCKDOWN_LEN];
+
+	#if defined(CONFIG_FB)
 	struct notifier_block fb_notif;
-#elif defined(CONFIG_HAS_EARLYSUSPEND)
+	#elif defined(CONFIG_HAS_EARLYSUSPEND)
 	struct early_suspend early_suspend;
-#endif
+	#endif
 };
 
 
