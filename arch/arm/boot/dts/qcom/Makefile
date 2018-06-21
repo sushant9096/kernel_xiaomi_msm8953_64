@@ -271,7 +271,6 @@ dtb-$(CONFIG_ARCH_MSM8953) += msm8953-mtp.dtb \
 	msm8953-pmi8937-mtp.dtb \
 	msm8953-pmi8940-ext-codec-mtp.dtb \
 	msm8953-pmi8937-ext-codec-mtp.dtb
->>>>>>> 58dd8702ce6f... Merge e02d9991fe12d46d3b9e0b3144b94bfcd15e6e5b on remote branch
 
 dtb-$(CONFIG_ARCH_SDM450) += sdm450-mtp.dtb \
 	sdm450-qrd.dtb \
@@ -346,7 +345,9 @@ dtb-$(CONFIG_ARCH_MSM8909) += msm8909-pm8916-mtp.dtb \
 	msm8909-1gb-mtp.dtb \
 	msm8909-1gb-rcm.dtb \
 	msm8909-pm8916-1gb-rcm.dtb \
-        msm8909-1gb-cdp.dtb
+	msm8909-1gb-cdp.dtb \
+	apq8009-ext-codec-dragon.dtb \
+	apq8009-dragon.dtb
 
 ifeq ($(CONFIG_ARM64),y)
 always          := $(dtb-y)
