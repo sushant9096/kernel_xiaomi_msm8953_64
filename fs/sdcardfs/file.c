@@ -134,7 +134,7 @@ static long sdcardfs_unlocked_ioctl(struct file *file, unsigned int cmd,
 	//revert_fsids(saved_cred);
 		fsstack_copy_inode_size(file_inode(file), file_inode(lower_file));
 	}
-	REVERT_CRED(saved_cred);
+	revert_fsids(saved_cred);
 out:
 	return err;
 }

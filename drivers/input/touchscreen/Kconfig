@@ -1132,7 +1132,6 @@ config TOUCHSCREEN_MAXIM_STI
 	  To compile this driver as a module, choose M here: the
 	  module will be called maxim_sti.
 
-<<<<<<< HEAD
 source "drivers/input/touchscreen/gt9xx/Kconfig"
 source "drivers/input/touchscreen/focaltech_touch/Kconfig"
 
@@ -1147,7 +1146,7 @@ config TOUCHSCREEN_HIMAX_CHIPSET
           If unsure, say N.
 
 source "drivers/input/touchscreen/hxchipset/Kconfig"
-=======
+
 config TOUCHSCREEN_FT5435
 	tristate "FocalTech touchscreens"
 	depends on I2C
@@ -1173,7 +1172,5 @@ config TOUCHSCREEN_GT917D
 
 
 source "drivers/input/touchscreen/gt917d/Kconfig"
-source “drivers/input/touchscreen/focaltech_touch/Kconfig”
->>>>>>> 0884128ae3ddf... Kernel: Xiaomi kernel changes for Redmi S2
 
 endif

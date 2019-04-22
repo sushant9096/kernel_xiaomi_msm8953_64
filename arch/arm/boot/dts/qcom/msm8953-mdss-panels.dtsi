@@ -25,7 +25,7 @@
 #include "dsi-panel-lt8912-480p-video.dtsi"
 #include "dsi-panel-lt8912-1080p-video.dtsi"
 #include "dsi-panel-lgd-incell-sw49106-fhd-video.dtsi"
-#include "dsi-panel-hx83100a-800p-video.dtsi"=
+#include "dsi-panel-hx83100a-800p-video.dtsi"
 #include "dsi-panel-truly-hd720-video.dtsi"
 #include "dsi-panel-auo-hd720-video.dtsi"
 #include "dsi-panel-shenchao-ili9881c-hd720-video.dtsi"
