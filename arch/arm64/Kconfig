@@ -785,6 +785,7 @@ config SECCOMP
 	  enabled via prctl(PR_SET_SECCOMP), it cannot be disabled
 	  and the task is only allowed to execute a few safe syscalls
 	  defined by each seccomp mode.
+	  
 config SPEAKER_EXT_PA
 	default y
 	bool "Speaker external PA"
